@@ -11,17 +11,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 import com.firebase.ui.auth.AuthUI;
+import com.firebase.ui.database.FirebaseListAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
-
 import java.security.PrivateKey;
 import static com.google.firebase.auth.FirebaseAuth.*;
 
 public class MainActivity extends AppCompatActivity {
-
-
+    private FirebaseListAdapter<ChatMessage> adapter;
     private static final int SIGN_IN_REQUEST_CODE =1 ;
     private void displayChatMessages() {
 
@@ -79,7 +78,6 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-
         FloatingActionButton fab =
                 (FloatingActionButton)findViewById(R.id.fab);
 
@@ -87,9 +85,6 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 EditText input = (EditText)findViewById(R.id.input);
-
-                // Read the input field and push a new instance
-                // of ChatMessage to the Firebase database
                 FirebaseDatabase.getInstance()
                         .getReference()
                         .push()
@@ -98,8 +93,6 @@ public class MainActivity extends AppCompatActivity {
                                         .getCurrentUser()
                                         .getDisplayName())
                         );
-
-                // Clear the input
                 input.setText("");
             }
         });
